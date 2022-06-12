@@ -19,56 +19,37 @@ builder.Services.AddDbContext<CourseContext>(options =>
 );
 
 // Sätt upp Identity hanteringen.
-
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(
-
   options =>
 
     {
-
       options.Password.RequireLowercase = true;
-
       options.Password.RequireUppercase = true;
-
       options.Password.RequiredLength = 6;
-
       options.Password.RequireNonAlphanumeric = false;
 
-
-
       options.User.RequireUniqueEmail = true;
-
-
 
       options.Lockout.MaxFailedAccessAttempts = 5;
 
       options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-
     }
 
 ).AddEntityFrameworkStores<CourseContext>();
 builder.Services.AddAuthentication(options =>
-
 {
-
   options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-
   options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
 }).AddJwtBearer(options =>
 
 {
-
   options.TokenValidationParameters = new TokenValidationParameters
-
   {
-
     ValidateIssuerSigningKey = true,
 
     IssuerSigningKey = new SymmetricSecurityKey(
 
           Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("apiKey"))
-
       ),
 
     ValidateLifetime = true,
@@ -78,9 +59,7 @@ builder.Services.AddAuthentication(options =>
     ValidateIssuer = false,
 
     ClockSkew = TimeSpan.Zero
-
   };
-
 });
 
 // Depency injection för våra egna Interface och klasser...
@@ -98,6 +77,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Regler för vilka avsändare som får lov att komma in hos oss...
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("SchoolApiCors",
+    policy =>
+    {
+      policy.AllowAnyHeader();
+      policy.AllowAnyMethod();
+      policy.WithOrigins(
+        "http://Localhost:3000");
+    }
+  );
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -109,8 +102,26 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("SchoolApiCors");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// using var scope = app.Services.CreateScope();
+// var services = scope.ServiceProvider;
+// try
+// {
+//   var context = services.GetRequiredService<CourseContext>();
+//   await context.Database.MigrateAsync();
+  
+// }
+// catch (Exception ex)
+// {
+//   var logger = services.GetRequiredService<ILogger<Program>>();
+//   logger.LogError(ex, "Ett fel inträffade när migrering utfördes");
+// }
+
+// await app.RunAsync();
 app.Run();

@@ -23,6 +23,12 @@ namespace SchoolApi.Repositories
             
         }
 
+        public async Task<List<StudentViewModel>> ListAllStudentsAsync()
+        {
+            return await _context.Students.ProjectTo<StudentViewModel>(_mapper.ConfigurationProvider).ToListAsync();
+
+        }
+
         public async Task<StudentViewModel?> GetStudentAsync(int id)
         {
             return await _context.Students.Where(o => o.Id == id).ProjectTo<StudentViewModel>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();

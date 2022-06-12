@@ -20,6 +20,14 @@ namespace SchoolApi.Controllers
             _studentRepo = studentRepo;
         }
 
+
+        [HttpGet("list")]
+        public async Task<ActionResult<List<StudentViewModel>>> ListStudents()
+        {
+            // Anropa metoden ListAllVehiclesAsync i vårt repository.
+            return Ok(await _studentRepo.ListAllStudentsAsync());
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentViewModel>> GetStudentById(int id)
         {
@@ -31,7 +39,7 @@ namespace SchoolApi.Controllers
         [HttpGet("byemail/{email}")]
         public async Task<ActionResult<StudentViewModel>> GetStudentByEmail(string email)
         {
-             var response = await _studentRepo.GetStudentByEmailAsync(email);
+            var response = await _studentRepo.GetStudentByEmailAsync(email);
             if (response is null) return NotFound($"We couldn't find the student Email: {email}");
             return Ok(response);
         }
@@ -41,13 +49,30 @@ namespace SchoolApi.Controllers
         {
             try
             {
-                 if (await _studentRepo.GetStudentByEmailAsync(student.Email!) is not null)
+                if (await _studentRepo.GetStudentByEmailAsync(student.Email!) is not null)
                     return BadRequest($"Student email {student.Email} already exists");
 
-                    await _studentRepo.AddStudentAsync(student);
+                await _studentRepo.AddStudentAsync(student);
 
-                     if (await _studentRepo.SaveAllAsync()) return StatusCode(201);
+                if (await _studentRepo.SaveAllAsync()) return StatusCode(201);
                 return StatusCode(500, "The Student could not be saved...");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateStudent(int id, PostStudentViewModel model)
+        {
+            try
+            {
+                await _studentRepo.UpdateStudentAsync(id, model);
+                if (await _studentRepo.SaveAllAsync()) return NoContent();
+
+                return StatusCode(500, $"An error has occured when updating student ID: {id}");
             }
             catch (Exception ex)
             {
@@ -58,7 +83,7 @@ namespace SchoolApi.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteStudentById(int id)
         {
-             try
+            try
             {
                 await _studentRepo.DeleteStudentAsync(id);
                 if (await _studentRepo.SaveAllAsync()) return NoContent();

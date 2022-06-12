@@ -25,6 +25,14 @@ namespace SchoolApi.Repositories
 
         }
 
+        public async Task<CourseViewModel?> GetCourseById(int id)
+        {
+          return await _context.Courses.Where(c => c.Id == id)
+          .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
+          .SingleOrDefaultAsync();
+
+        }
+
         public async Task<CourseViewModel?> GetCourseByNumberAsync(int courseNumber)
         {
             return await _context.Courses.Where(o => o.CourseNumber == courseNumber)

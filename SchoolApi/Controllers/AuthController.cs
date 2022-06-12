@@ -11,7 +11,7 @@ namespace SchoolApi.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    [Authorize()]
+    
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -91,8 +91,8 @@ namespace SchoolApi.Controllers
             }
         }
 
-        [HttpPost("login")]
         [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<ActionResult<UserViewModel>> Login(LoginViewModel model)
         {
 
@@ -134,9 +134,7 @@ namespace SchoolApi.Controllers
             var roles = await _userManager.GetRolesAsync(user);
 
             userClaims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-
-
-
+           
             // Skapa ett nytt token...
             var jwt = new JwtSecurityToken(
                 claims: userClaims,
@@ -157,7 +155,6 @@ namespace SchoolApi.Controllers
                     SecurityAlgorithms.HmacSha512Signature
                 )
             );
-
             // Vi använder klassen JwtSecurityTokenHandler och dess metod WriteToken för att
             // skapa en sträng av vårt token...
             return new JwtSecurityTokenHandler().WriteToken(jwt);

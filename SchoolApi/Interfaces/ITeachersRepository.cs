@@ -8,6 +8,7 @@ namespace SchoolApi.Interfaces
 {
     public interface ITeachersRepository
     {
+        public Task<List<TeacherViewModel>> ListAllTeachersAsync();
         public Task<TeacherViewModel?> GetTeacherAsync(int id);
         public Task<TeacherViewModel?> GetTeacherByEmailAsync(string Email);
         public Task AddTeacherAsync (PostTeacherViewModel teacher);

@@ -9,6 +9,14 @@ namespace SchoolApi.ViewModels.StudentsView
     public class PostStudentViewModel
     {
         [Required]
-        public String? Email { get; set; }
+        public string? Firstname { get; set; }
+         [Required]
+        public string? Lastname { get; set; }
+        [Required]
+        public string? Email { get; set; }
+         [Required]
+        public int TelefonNumber { get; set; }
+         [Required]
+        public string? Address { get; set; }
     }
 }

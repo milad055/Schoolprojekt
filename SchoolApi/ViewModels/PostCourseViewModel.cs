@@ -13,5 +13,9 @@ namespace SchoolApi.ViewModels
         [Required]
         [RegularExpression(@"^[0-9]{4,4}$", ErrorMessage = "Course number must be 4 digit.")] 
         public int CourseNumber { get; set; }
+        public string? CourseLength { get; set; }
+        public string? Category { get; set; }
+        public string? Description { get; set; }
+        public string? Details { get; set; }
     }
 }

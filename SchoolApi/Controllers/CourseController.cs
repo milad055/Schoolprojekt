@@ -18,11 +18,26 @@ namespace schoolApi.Controllers
 
         }
 
-        [HttpGet()]
+        [HttpGet("list")]
         public async Task<ActionResult<List<CourseViewModel>>> ListCourses()
         {
             // Anropa metoden ListAllVehiclesAsync i vårt repository.
             return Ok(await _CourseRepo.ListAllCoursesAsync());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<CourseViewModel>> GetCourseById(int id)
+        {
+            // Anropa metoden GetVehiclesAsync i vårt repository
+            var response = await _CourseRepo.GetCourseById(id);
+
+            // Kontroller om vi inte har fått någon bil eller fordon tillbaka
+            if (response is null)
+                // I så fall returnera ett 404 NotFound meddelande
+                return NotFound($"We could not find any corse with id: {id}");
+
+            // Annars returnera bilen eller fordonet
+            return Ok(response);
         }
 
         [HttpGet("courseNumber/{courseNum}")]
@@ -50,15 +65,11 @@ namespace schoolApi.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-            // Interesting note
-            //I couldn't create a course number that started with 0. 
-            //001 didn't work
         }
 
-        // Update/Put/Patch functions.........................................
+        // Update/Put/Patch functions...
         [HttpPut("{id}")]
         //Question. How do I update a course by searching for the title?
-        //  query .Where(c => c.Title == title) didn't work. 
         public async Task<IActionResult> UpdateCourse(int id, PostCourseViewModel model)
         {
             try

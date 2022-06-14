@@ -47,12 +47,14 @@ namespace SchoolApi.Repositories
             await _context.Teachers.AddAsync(NewTeacher);
         }
 
-        public async Task UpdateTeacherAsync(int id, PostTeacherViewModel teacher)
+         public async Task UpdateTeacherAsync(int id, PostTeacherViewModel model)
         {
-            var Teacher = await _context.Teachers.FindAsync(id);
-            if (teacher is null) throw new Exception($"We could not find the teacher ID:");
+            var teacher = await _context.Teachers.FindAsync(id);
+            if (teacher is null) throw new Exception($"We could not find the Student ID:");
+
+            _mapper.Map<PostTeacherViewModel, Teachers>(model, teacher);
+            _context.Teachers.Update(teacher);
         }
-        
         public async Task DeleteTeacherAsync(int id)
         {
             var response = await _context.Teachers.FindAsync(id);

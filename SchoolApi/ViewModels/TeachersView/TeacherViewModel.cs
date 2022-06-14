@@ -10,8 +10,8 @@ namespace SchoolApi.ViewModels.TeachersView
     {
 
         public int TeacherId { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
+        public string? Firstname { get; set; }
+        public string? Lastname { get; set; }
         public string? Email { get; set; }
         public int TelefonNumber { get; set; }
         public string? Address { get; set; }

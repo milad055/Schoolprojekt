@@ -10,13 +10,13 @@ namespace SchoolApi.ViewModels.StudentsView
     {
         [Required]
         public string? Firstname { get; set; }
-         [Required]
+        [Required]
         public string? Lastname { get; set; }
         [Required]
         public string? Email { get; set; }
-         [Required]
+        [Required]
         public int TelefonNumber { get; set; }
-         [Required]
+        [Required]
         public string? Address { get; set; }
     }
 }

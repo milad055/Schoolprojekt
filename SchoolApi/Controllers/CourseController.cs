@@ -69,7 +69,6 @@ namespace schoolApi.Controllers
 
         // Update/Put/Patch functions...
         [HttpPut("{id}")]
-        //Question. How do I update a course by searching for the title?
         public async Task<IActionResult> UpdateCourse(int id, PostCourseViewModel model)
         {
             try

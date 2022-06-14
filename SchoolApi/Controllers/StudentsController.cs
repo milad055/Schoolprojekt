@@ -21,7 +21,7 @@ namespace SchoolApi.Controllers
         }
 
 
-        [HttpGet("list")]
+        [HttpGet("liststudents")]
         public async Task<ActionResult<List<StudentViewModel>>> ListStudents()
         {
             // Anropa metoden ListAllVehiclesAsync i vårt repository.

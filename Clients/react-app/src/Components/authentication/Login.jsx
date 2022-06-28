@@ -42,7 +42,7 @@ function Login() {
       localStorage.setItem('token', JSON.stringify(result.token));
       navigate('/list');
     } else {
-      console.log('Det gick inte att logga in');
+      console.log('Login failed');
     }
   };
 

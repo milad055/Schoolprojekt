@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 // Importera VehicleItem som då representerar en rad per bil...
 import CourseItem from './CourseItem';
+import SearchCourseByCategory from '../Searchbar/Searchbar';
+
 
 // Skapa komponenten VehicleList
 // Container för alla våra bilar i tabell format...
 function CourseList() {
   const [courses, setCourses] = useState([]);
+  const [query, setQuery] = useState([]);
 
   // useEffect körs varje gång som en ändring sker till Virtual DOM.
   // Vi kan ange en array [] med beroenden som måste starta useEffect...
@@ -49,30 +52,44 @@ function CourseList() {
     }
   };
 
+  function Search(course) {
+    return course.filter((course) => course.category.toLowerCase().indexOf(query) > -1);
+  }
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Title</th>
-          <th>CourseNumber</th>
-          <th>CourseLength</th>
-          <th>Category</th>
-          <th>Description</th>
-          <th>Details</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {courses.map((course) => (
-          <CourseItem
-            course={course}
-            key={course.courseId}
-            handleDeleteCourse={deleteCourse}
-          />
-        ))}
-      </tbody>
-    </table>
+    <div>
+      <div>
+      <input
+          type='text'
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+      </div>
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Title</th>
+                <th>CourseNumber</th>
+                <th>CourseLength</th>
+                <th>Category</th>
+                <th>Description</th>
+                <th>Details</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {courses.map((course) => (
+                <CourseItem
+                course={Search(course)}
+                key={course.courseId}
+                handleDeleteCourse={deleteCourse}
+                />
+                ))}
+            </tbody>
+          </table>
+      </div>
+     
   );
 }
 

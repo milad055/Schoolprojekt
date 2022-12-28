@@ -4,9 +4,9 @@ using SchoolApi.Interfaces;
 using SchoolApi.Repositories;
 using SchoolApi.Helpers;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -48,11 +48,11 @@ table {
     border-collapse: collapse;
     background-color: var(--table-background-color);
     width: 100%;
-    min-width: 600px;
+    min-width: 700px;
 }
 
 thead {
-    background-color: var(--dark-color);
+    background-color: var(--secondary-color);
     color: var(--light-color);
 }
 
@@ -62,7 +62,7 @@ th {
 }
 
 td {
-    padding: 0.3rem 0.7rem;
+    padding: 0.5rem 0.0rem;
     border-bottom: solid 1px var(--separator-color);
 }
 

@@ -34,9 +34,17 @@ namespace schoolApi.Controllers
             // Kontroller om vi inte har fått någon bil eller fordon tillbaka
             if (response is null)
                 // I så fall returnera ett 404 NotFound meddelande
-                return NotFound($"We could not find any corse with id: {id}");
+                return NotFound($"We could not find any course with id: {id}");
 
             // Annars returnera bilen eller fordonet
+            return Ok(response);
+        }
+
+        [HttpGet("category/{category}")]
+        public async Task<ActionResult<CourseViewModel>> GetCoursebyCategory(string category)
+        {
+            var response = await _CourseRepo.GetCoursesByCategory(category);
+            if (response is null) return NotFound($"We couldn't find the category: {category}");
             return Ok(response);
         }
 

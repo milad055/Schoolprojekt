@@ -27,10 +27,22 @@ namespace SchoolApi.Repositories
 
         public async Task<CourseViewModel?> GetCourseById(int id)
         {
-          return await _context.Courses.Where(c => c.Id == id)
-          .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
-          .SingleOrDefaultAsync();
+            return await _context.Courses.Where(c => c.Id == id)
+            .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
 
+        }
+
+        public async Task<IEnumerable<CourseViewModel>> GetCoursesByCategory(string category)
+        {
+            // Retrieve the courses that belong to the specified category
+            var courses  = await _context.Courses
+              .Where(c => c.Category == category)
+              .ProjectTo<CourseViewModel>(_mapper.ConfigurationProvider)
+              .ToListAsync();
+
+            // Return the courses
+            return courses ;
         }
 
         public async Task<CourseViewModel?> GetCourseByNumberAsync(int courseNumber)

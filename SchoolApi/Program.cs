@@ -109,19 +109,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// using var scope = app.Services.CreateScope();
-// var services = scope.ServiceProvider;
-// try
-// {
-//   var context = services.GetRequiredService<CourseContext>();
-//   await context.Database.MigrateAsync();
-  
-// }
-// catch (Exception ex)
-// {
-//   var logger = services.GetRequiredService<ILogger<Program>>();
-//   logger.LogError(ex, "Ett fel inträffade när migrering utfördes");
-// }
-
-// await app.RunAsync();
 app.Run();

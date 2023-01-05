@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using SchoolApi.Interfaces;
 using SchoolApi.ViewModels.StudentsView;
 
@@ -24,7 +18,7 @@ namespace SchoolApi.Controllers
         [HttpGet("liststudents")]
         public async Task<ActionResult<List<StudentViewModel>>> ListStudents()
         {
-            // Anropa metoden ListAllVehiclesAsync i vårt repository.
+            
             return Ok(await _studentRepo.ListAllStudentsAsync());
         }
 

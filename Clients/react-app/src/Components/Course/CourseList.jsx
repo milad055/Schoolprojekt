@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
-// Importera VehicleItem som då representerar en rad per bil...
 import CourseItem from "./CourseItem";
 
-// Skapa komponenten VehicleList
-// Container för alla våra bilar i tabell format...
 function CourseList() {
   const [courses, setCourses] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [categories, setCategories] = useState([]);
 
   // useEffect körs varje gång som en ändring sker till Virtual DOM.
   // Vi kan ange en array [] med beroenden som måste starta useEffect...
@@ -16,8 +14,7 @@ function CourseList() {
 
   useEffect(() => {
     loadCoursesByCategory(categoryFilter);
-  });
-  
+  }, [categoryFilter]);
 
   const handleCategoryFilter = (e) => {
     setCategoryFilter(e.target.value);
@@ -62,7 +59,11 @@ function CourseList() {
     if (!response.ok) {
       console.log("Something went wrong!");
     } else {
-      setCourses(await response.json());
+      const courses = await response.json();
+      // Extract unique categories from the list of courses
+      const categories = Array.from(new Set(courses.map((c) => c.category)));
+      setCategories(categories);
+      setCourses(courses);
     }
   };
 
@@ -95,9 +96,9 @@ function CourseList() {
             Category
             <select onChange={handleCategoryFilter}>
               <option value="">All</option>
-              <option value="C# programming">C# programming</option>
-              <option value="Python">Python</option>
-              <option value="Math">Math</option>
+              {categories.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
             </select>
           </th>
           <th></th>

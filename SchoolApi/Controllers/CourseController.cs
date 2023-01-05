@@ -1,7 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using schoolApi.Models;
-using SchoolApi.Data;
 using SchoolApi.Interfaces;
 using SchoolApi.ViewModels;
 
@@ -21,22 +18,22 @@ namespace schoolApi.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<List<CourseViewModel>>> ListCourses()
         {
-            // Anropa metoden ListAllVehiclesAsync i vårt repository.
+            
             return Ok(await _CourseRepo.ListAllCoursesAsync());
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CourseViewModel>> GetCourseById(int id)
         {
-            // Anropa metoden GetVehiclesAsync i vårt repository
+
             var response = await _CourseRepo.GetCourseById(id);
 
-            // Kontroller om vi inte har fått någon bil eller fordon tillbaka
+
             if (response is null)
                 // I så fall returnera ett 404 NotFound meddelande
                 return NotFound($"We could not find any course with id: {id}");
 
-            // Annars returnera bilen eller fordonet
+
             return Ok(response);
         }
 
@@ -101,7 +98,7 @@ namespace schoolApi.Controllers
                 await _CourseRepo.DeleteCourseAsync(id);
                 if (await _CourseRepo.SaveAllAsync()) return NoContent();
 
-                return StatusCode(500, $"Something went wrong when trying to delete Coures ID: {id}");
+                return StatusCode(500, $"Something went wrong when trying to delete Courses ID: {id}");
             }
             catch (System.Exception ex)
             {
